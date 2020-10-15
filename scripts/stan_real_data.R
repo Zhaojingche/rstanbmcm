@@ -1,6 +1,6 @@
 
 # run stan mixture cure model
-# real-life dataset
+# CheckMate 067 dataset
 
 
 library(rstan)
@@ -13,7 +13,7 @@ load("C:/Users/Nathan/Documents/R/mixture_cure_model/data/surv_input_data.RData"
 
 all_tx_names <- c("IPILIMUMAB", "NIVOLUMAB", "NIVOLUMAB+IPILIMUMAB")
 all_event_types <- c("PFS", "OS")
-model_names <- "exp" #c("exp", "weibull")
+model_names <- "exp" #c("exp", "weibull", "gompertz")
 
 # stan_fn <- bmcm_stan
 stan_fn <- bmcm_stan_file

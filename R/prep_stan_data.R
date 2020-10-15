@@ -1,5 +1,5 @@
 
-#' pre_stan_data
+#' prep_stan_data
 #'
 #' @param input_data
 #' @param event_type
@@ -11,7 +11,7 @@
 #' @return
 #' @export
 #'
-pre_stan_data <- function(input_data,
+prep_stan_data <- function(input_data,
                           event_type,
                           tx_name,
                           centre_age,

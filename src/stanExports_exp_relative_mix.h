@@ -37,7 +37,7 @@ stan::io::program_reader prog_reader__() {
     reader.add_event(4, 0, "start", "/include/distributions.stan");
     reader.add_event(124, 120, "end", "/include/distributions.stan");
     reader.add_event(124, 5, "restart", "model_exp_relative_mix");
-    reader.add_event(231, 110, "end", "model_exp_relative_mix");
+    reader.add_event(230, 109, "end", "model_exp_relative_mix");
     return reader;
 }
 template <typename T0__, typename T1__>

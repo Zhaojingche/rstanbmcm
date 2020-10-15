@@ -15,6 +15,9 @@ all_tx_names <- c("IPILIMUMAB", "NIVOLUMAB", "NIVOLUMAB+IPILIMUMAB")
 all_event_types <- c("PFS", "OS")
 model_names <- "exp" #c("exp", "weibull")
 
+# stan_fn <- bmcm_stan
+stan_fn <- bmcm_stan_file
+
 stan_out <- list()
 
 for (k in model_names) {
@@ -22,10 +25,10 @@ for (k in model_names) {
     for (j in all_tx_names) {
       tryCatch({
         stan_out[[k]][[i]][[j]] <-
-          bmcm_stan(input_data = surv_input_data,
-                    model = k,
-                    event_type = i,
-                    tx_name = j)},
+          stan_fn(input_data = surv_input_data,
+                  model = k,
+                  event_type = i,
+                  tx_name = j)},
         error = function(e) e)
     }
   }

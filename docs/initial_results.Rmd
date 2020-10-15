@@ -1,30 +1,54 @@
 ---
-title: "initial results"
-author: "N Green"
+title: "Bayesian Mixture Cure Modelling in Metastatic Melanoma (CheckMate 067)"
+author: "N Green, UCL"
 date: "14/10/2020"
-output: pdf_document
+output:
+  html_document:
+    df_print: paged
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+[taken from Anthonio]
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+### Methodology
+Immuno-oncologic (IO) studies for melanoma therapies, such as _ipilimumab_, _nivolumab_, and the _nivolumab_
++ _ipilimumab_ combination, have indicated that survival curves “plateau” (a considerable proportion of
+patients are “long-term survivors”). Cure models are a special type of survival analysis where this “cure
+fraction” (the underlying proportion of responders to treatment/long-term survivors) is accounted for. Cure
+models estimate the cure fraction, in addition to a parametric survival function for patients that are not
+cured. The mortality risk in the cured patients is informed by a background mortality rate. The population
+that is not cured is subject both to background mortality and to additional mortality from their cancer,
+estimated using a parametric survival model.
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+A mixture cure model (MCM) is a type of cure model where survival is modelled as a mixture of two groups
+of patients: those who are cured and those who are not (and who therefore remain at risk). The survival for
+a population with a cure fraction can be written as follows:
 
-```{r cars}
-summary(cars)
-```
+$$
+S(t, x) = S^*(t, x)[\pi(x) + (1 − \pi(x))S_u(t, x)],
+$$
 
-## Including Plots
+where $S(t, x)$ denotes the survival at time $t$, $S^*(t, x)$ denotes the background mortality at time $t$ conditional on
+covariates $x$, $\pi(x)$ denotes the probability of being cured conditional on covariates $x$, and $S_u(t, x)$ denotes
+the mortality due to cancer at time t conditional on covariates $x$.
+We use World Health Organization (WHO) life tables by country (2018) to inform the background mortality
+rate (baseline hazard) inputed to the cure model. Such baseline hazard is the expected mortality rate for
+each patient at the age at which he/she experiences the event. The mortality data are age- and gender adjusted,
+thus providing a granular account of the different patient profiles in the trial. Note that WHO
+reports conditional probabilities of death in 5-year intervals until age 85. A constant annual mortality rate is
+reported for individuals over 85. In addition, we make the assumption that the maximum age that a patient
+can live up to is 100 years.
 
-You can also embed plots, for example:
+To model the disease-specific mortality (the uncured fraction), all standard parametric distributions are tested:
 
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
+* exponential
+* Weibull
+* Gompertz
+* log-normal
+* log-logistic
+* generalised gamma.
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+Parameters for the models, including the cure rate parameter, are derived via Bayesian inference.

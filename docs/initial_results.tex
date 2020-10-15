@@ -1,0 +1,133 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Bayesian Mixture Cure Modelling in Metastatic Melanoma (CheckMate 067)},
+  pdfauthor={N Green},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+\title{Bayesian Mixture Cure Modelling in Metastatic Melanoma (CheckMate
+067)}
+\author{N Green}
+\date{14/10/2020}
+
+\begin{document}
+\maketitle
+
+{[}taken from Anthonio{]} \#\#\# Methodology Immuno-oncologic (IO)
+studies for melanoma therapies, such as \emph{ipilimumab},
+\emph{nivolumab}, and the \emph{nivolumab} + \emph{ipilimumab}
+combination, have indicated that survival curves ``plateau'' (a
+considerable proportion of patients are ``long-term survivors''). Cure
+models are a special type of survival analysis where this ``cure
+fraction'' (the underlying proportion of responders to
+treatment/long-term survivors) is accounted for. Cure models estimate
+the cure fraction, in addition to a parametric survival function for
+patients that are not cured. The mortality risk in the cured patients is
+informed by a background mortality rate. The population that is not
+cured is subject both to background mortality and to additional
+mortality from their cancer, estimated using a parametric survival
+model.
+
+A mixture cure model (MCM) is a type of cure model where survival is
+modelled as a mixture of two groups of patients: those who are cured and
+those who are not (and who therefore remain at risk). The survival for a
+population with a cure fraction can be written as follows:
+
+\[
+S(t, x) = S^*(t, x)[\pi(x) + (1 − \pi(x))S_u(t, x)],
+\]
+
+where \(S(t, x)\) denotes the survival at time \(t\), \(S^*(t, x)\)
+denotes the background mortality at time \(t\) conditional on covariates
+\(x\), \(\pi(x)\) denotes the probability of being cured conditional on
+covariates \(x\), and \(S_u(t, x)\) denotes the mortality due to cancer
+at time t conditional on covariates \(x\). We use World Health
+Organization (WHO) life tables by country (2018) to inform the
+background mortality rate (baseline hazard) inputed to the cure model.
+Such baseline hazard is the expected mortality rate for each patient at
+the age at which he/she experiences the event. The mortality data are
+age- and gender adjusted, thus providing a granular account of the
+different patient profiles in the trial. Note that WHO reports
+conditional probabilities of death in 5-year intervals until age 85. A
+constant annual mortality rate is reported for individuals over 85. In
+addition, we make the assumption that the maximum age that a patient can
+live up to is 100 years.
+
+To model the disease-specific mortality (the uncured fraction), all
+standard parametric distributions are tested:
+
+\begin{itemize}
+\tightlist
+\item
+  exponential
+\item
+  Weibull
+\item
+  Gompertz
+\item
+  log-normal
+\item
+  log-logistic
+\item
+  generalised gamma.
+\end{itemize}
+
+Parameters for the models, including the cure rate parameter, are
+derived via Bayesian inference.
+
+\end{document}

@@ -80,7 +80,8 @@ generated quantities {
   vector[60] S0;
   vector[60] S_pred;
 
-  rate0 = exp(beta0[1]);     // is it already centred?
+  # intercept
+  rate0 = exp(beta0[1]);
   rate_bg = exp(beta_bg[1]);
 
   for (i in 1:60) {

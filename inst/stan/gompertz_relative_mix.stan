@@ -77,14 +77,14 @@ generated quantities {
   vector[60] S0;
   vector[60] S_pred;
 
-  rate0 = exp(beta0[1]);     // is it already centred?
+  rate0 = exp(beta0[1]);
   rate_bg = exp(beta_bg[1]);
 
-  // for (i in 1:60) {
-  //   S_bg[i] = exp_Surv(i, rate_bg);
-  //   S0[i] = gompertz_Surv(i, mu_alpha, rate0);
-  //   S_pred[i] = curefrac*S_bg[i] + (1 - curefrac)*S0[i]*S_bg[i];
-  // }
+  for (i in 1:60) {
+    S_bg[i] = exp_Surv(i, rate_bg);
+    S0[i] = gompertz_Surv(i, mu_alpha, rate0);
+    S_pred[i] = curefrac*S_bg[i] + (1 - curefrac)*S0[i]*S_bg[i];
+  }
 
   //// for each individual
   // matrix[60,n] S_bg;

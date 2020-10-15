@@ -11,9 +11,9 @@ library(dplyr)
 # surv_input_data
 load("C:/Users/Nathan/Documents/R/mixture_cure_model/data/surv_input_data.RData")
 
-all_tx_names <- c("IPILIMUMAB", "NIVOLUMAB", "NIVOLUMAB+IPILIMUMAB")
-all_event_types <- c("PFS", "OS")
-model_names <- "exp" #c("exp", "weibull", "gompertz")
+all_tx_names <- c("IPILIMUMAB")#, "NIVOLUMAB", "NIVOLUMAB+IPILIMUMAB")
+all_event_types <- c("PFS")#, "OS")
+model_names <- c("exp")#, "weibull", "gompertz")
 
 # stan_fn <- bmcm_stan
 stan_fn <- bmcm_stan_file

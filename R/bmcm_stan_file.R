@@ -12,7 +12,7 @@
 #' @param n_chains Number of chains; int
 #' @param mean_cf Mean cure fraction; default to U[0,1]
 #' @param var_cf Variance of cure fraction
-#' @param age_adj Logical to centre regression covariate
+#' @param centre_age Logical to centre regression covariate
 #' @param ... Additional arguments
 #'
 #' @import rstan
@@ -27,7 +27,7 @@ bmcm_stan_file <- function(input_data,
                            n_chains = 2,
                            mean_cf = NA,
                            var_cf = NA,
-                           age_adj = TRUE,
+                           centre_age = TRUE,
                            ...) {
   data_list <-
     prep_stan_data(input_data,

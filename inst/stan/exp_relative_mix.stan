@@ -2,7 +2,8 @@
 // relative survival
 
 functions {
-#include /include/distributions.stan
+// #include /include/distributions.stan
+#include C:/Users/Nathan/Documents/R/rstanbmcm/inst/stan/include/distributions.stan
 }
 
 // input data ----

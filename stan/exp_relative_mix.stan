@@ -11,7 +11,7 @@ data {
   int<lower=0> n;             // number of observations
   vector[n] t;                // observed times
   vector[n] d;                // censoring indicator (1 = observed, 0 = censored)
-  int H;                      // number of covariates
+  int<lower = 0> H;           // number of covariates
   matrix[n,H] X;              // matrix of covariates (with n rows and H columns)
 
   // intercept only -
@@ -91,22 +91,46 @@ generated quantities {
     S_pred[i] = curefrac*S_bg[i] + (1 - curefrac)*S0[i];
   }
 
-  // for (i in 1:n) {    //TODO:
-  //   ppv[i] = exp_mix_rng(curefrac, lambda0[i], lambda_bg[i])
-  // }
-
-  //// for each individual
-  // matrix[60,n] S_bg;
-  // matrix[60,n] S0;
-  // matrix[60,n] S_pred;
+  ////TODO: posterior predictions ----
+  // vector<lower=0> t_tilde[n] =
+  //   exp_mix_rng(curefrac, lambda0, lambda_bg)
   //
-  // for (j in 1:n) {
-    //   for (i in 1:60) {
-      //     S_bg[i,j] = exp_Surv(i, lambda_bg[j]);
-      //     S0[i,j] = exp_Surv(i, lambda_bg[j] + lambda0[j]);
-      //     S_pred[i,j] = curefrac*S_bg[i,j] + (1 - curefrac)*S0[i,j];
-      //   }
-      // }
-      //TODO: case-mix average at time, sample?
+  //   exp_mix_reg = function(real curefrac, vector lambda0, vector lambda_bg) {
+  //
+  //     vector<lower=0> t[n]
+  //
+  //     for (i in 1:n) {
+  //       //TODO: how is this vectorised over posterior draws?
+  //       real U = uniform_rng(0,1)
+  //
+  //       if (curefrac > U) {
+  //         t[i] = exponential_rng(lambda_bg[i])
+  //       } else {
+  //         t[i] = exponential_rng(lambda_bg[i] + lambda0[i])
+  //       }
+  //     }
+  //     return(t)
+  //   }
+  //
+  // vector<lower=0> lambda_tilde[n] =
+  //   rate_mix_rng(curefrac, lambda0, lambda_bg)
+  //
+  //   rate_mix_reg = function(real curefrac, vector lambda0, vector lambda_bg) {
+  //
+  //     vector<lower=0> lambda[n]
+  //
+  //     for (i in 1:n) {
+  //
+  //       real U = uniform_rng(0,1)
+  //
+  //       if (curefrac > U) {
+  //         lambda[i] = lambda_bg[i]
+  //       } else {
+  //         lambda[i] = lambda_bg[i] + lambda0[i]
+  //       }
+  //     }
+  //     return(lambda)
+  //   }
+
 }
 

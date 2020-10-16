@@ -37,11 +37,13 @@ bmcm_stan_file <- function(input_data,
                    mean_cf,
                    var_cf)
 
+  ##TODO:
+  # could just duplicate these somewhere else so dont have to recompile again?
   stan_file <-
     switch(model,
-           exp      = here::here("inst/stan/exp_relative_mix.stan"),
-           weibull  = here::here("inst/stan/weibull_relative_mix.stan"),
-           gompertz = here::here("inst/stan/gompertz_relative_mix.stan"))
+           exp      = here::here("stan", "exp_relative_mix.stan"),
+           weibull  = here::here("stan", "weibull_relative_mix.stan"),
+           gompertz = here::here("stan", "gompertz_relative_mix.stan"))
 
   rstan_options(auto_write = TRUE)
   options(mc.cores = parallel::detectCores())

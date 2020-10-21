@@ -7,9 +7,9 @@
 #' @param model Distribution name; exp, weibull, gompertz
 #' @param event_type Overall survival or progression-free survival; OS, PFS
 #' @param tx_name Treatment name; IPILIMUMAB, NIVOLUMAB, NIVOLUMAB+IPILIMUMAB
-#' @param n_iter int
-#' @param n_warmup int
-#' @param n_chains Number of chains; int
+#' @param iter int
+#' @param warmup int
+#' @param chains Number of chains; int
 #' @param mean_cf Mean cure fraction; default to U[0,1]
 #' @param var_cf Variance of cure fraction
 #' @param age_adj Logical to centre regression covariate
@@ -22,20 +22,22 @@ bmcm_stan <- function(input_data,
                       model = "exp",
                       event_type = "PFS",
                       tx_name = "IPILIMUMAB",
-                      n_iter = 2000,
-                      n_warmup = 1000,
-                      n_chains = 2,
+                      iter = 2000,
+                      warmup = 1000,
+                      thin = 10,
+                      chains = 2,
                       mean_cf = NA,
                       var_cf = NA,
                       age_adj = TRUE,
                       ...) {
   data_list <-
-    prep_stan_data(input_data,
-                   event_type,
-                   tx_name,
-                   centre_age,
-                   mean_cf,
-                   var_cf)
+    c(prep_stan_params(model),
+      prep_stan_data(input_data,
+                     event_type,
+                     tx_name,
+                     centre_age,
+                     mean_cf,
+                     var_cf))
 
   stan_model <-
     switch(model,
@@ -44,16 +46,17 @@ bmcm_stan <- function(input_data,
            gompertz = stanmodels$gompertz_relative_mix)
 
   rstan_options(auto_write = TRUE)
-  options(mc.cores = parallel::detectCores())
+  options(mc.cores = parallel::detectCores() - 1)
   # stan_rdump(c("n_obs", "y"), file = "mix.data.R")
 
   rstan::sampling(
     stan_model,
     data = data_list,
-    warmup = n_warmup,
+    warmup = warmup,
+    iter = iter,
+    thin= thin,
     control = list(adapt_delta = 0.99,
                    max_treedepth = 20),
-    iter = n_iter,
-    chains = n_chains, ...)
+    chains = chains, ...)
 }
 

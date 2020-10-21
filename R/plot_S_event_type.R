@@ -4,7 +4,7 @@
 #' Plot results of running stan
 #' relative survival mixture cure model.
 #'
-#' @param stan_out Nested list of stan output
+#' @param file_names Nested list of file name for stan output
 #'
 #' @importFrom purrr map
 #' @importFrom reshape2 melt
@@ -12,9 +12,9 @@
 #' @importFrom dplyr mutate
 #'
 #' @examples
-#' load("data/stan_out.RData")
+#' load("data/file_names.RData")
 #'
-plot_S_event_type <- function(stan_out) {
+plot_S_event_type <- function(file_names) {
 
   ##TODO:
   # text cure fractions
@@ -23,8 +23,8 @@ plot_S_event_type <- function(stan_out) {
   S_stats <- list()
   S_pred <- NULL
 
-  event_types <- names(stan_out)
-  tx_names <- names(stan_out[[1]])
+  event_types <- names(file_names)
+  tx_names <- names(file_names[[1]])
 
   for (i in event_types) {
 
@@ -34,7 +34,8 @@ plot_S_event_type <- function(stan_out) {
     for (j in tx_names) {
 
       fit_stan[[i]][[j]] <-
-        rstan::extract(stan_out[[i]][[j]])
+        readRDS(file_names[[i]][[j]]) %>%
+        rstan::extract()
 
       # rearrange to time as rows
       S_dat <-

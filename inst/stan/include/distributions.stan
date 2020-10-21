@@ -61,6 +61,12 @@ real weibull_log_h (real t, real shape, real scale) {
   return logh;
 }
 
+real weibull_haz (real t, real shape, real scale) {
+  real h;
+  h = shape / scale * pow(t/scale, shape - 1);
+  return h;
+}
+
 // weibull log survival
 real weibull_log_S (real t, real shape, real scale) {
   real logS;
@@ -113,8 +119,26 @@ real gompertz_Surv (real t, real shape, real rate) {
 // gompertz sampling distribution
 real surv_gompertz_lpdf (real t, data real d, real shape, real rate) {
   real log_lik;
-  real prob;
   log_lik = d * gompertz_log_h(t,shape,rate) + gompertz_log_S(t,shape,rate);
+  return log_lik;
+}
+
+
+/**
+* combined (non-cured) mortality
+* background (all-cause) and cancer
+*/
+real joint_exp_weibull_pdf(real t, real d, real shape, real scale, real rate) {
+  real log_lik;
+  log_lik = exp_Surv(t, rate) * weibull_Surv(t, shape, scale) *
+            pow(exp_haz(t, rate) + weibull_haz(t, shape, scale), d);
+  return log_lik;
+}
+
+real joint_exp_weibull_lpdf(real t, real d, real shape, real scale, real rate) {
+  real log_lik;
+  log_lik = d * log(exp_haz(t, rate) + weibull_haz(t, shape, scale)) +
+            exp_log_S(t, rate) + weibull_log_S(t, shape, scale);
   return log_lik;
 }
 

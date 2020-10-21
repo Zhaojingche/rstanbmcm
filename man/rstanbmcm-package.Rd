@@ -6,7 +6,7 @@
 \alias{rstanbmcm}
 \title{The 'rstanbmcm' package.}
 \description{
-A DESCRIPTION OF THE PACKAGE
+Bayesian mixture cure model with relative survival
 }
 \references{
 Stan Development Team (2020). RStan: the R interface to Stan. R package version 2.21.2. https://mc-stan.org

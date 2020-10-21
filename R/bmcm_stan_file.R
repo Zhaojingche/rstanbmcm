@@ -22,38 +22,43 @@ bmcm_stan_file <- function(input_data,
                            model = "exp",
                            event_type = "PFS",
                            tx_name = "IPILIMUMAB",
-                           n_iter = 2000,
+                           n_iter = 3000,
                            n_warmup = 1000,
-                           n_chains = 2,
+                           n_chains = 3,
+                           thin = 10,
                            mean_cf = NA,
                            var_cf = NA,
                            centre_age = TRUE,
                            ...) {
   data_list <-
-    prep_stan_data(input_data,
-                   event_type,
-                   tx_name,
-                   centre_age,
-                   mean_cf,
-                   var_cf)
+    c(prep_stan_params(model),
+      prep_stan_data(input_data,
+                     event_type,
+                     tx_name,
+                     centre_age,
+                     mean_cf,
+                     var_cf))
 
   stan_file <-
     switch(model,
-           exp      = here::here("inst/stan/exp_relative_mix.stan"),
-           weibull  = here::here("inst/stan/weibull_relative_mix.stan"),
-           gompertz = here::here("inst/stan/gompertz_relative_mix.stan"))
+           exp      = here::here("stan", "exp_relative_mix.stan"),
+           weibull  = here::here("stan", "weibull_relative_mix.stan"),
+           gompertz = here::here("stan", "gompertz_relative_mix.stan"))
 
   rstan_options(auto_write = TRUE)
-  options(mc.cores = parallel::detectCores())
+  options(mc.cores = min(n_chains, parallel::detectCores() - 1))
   # stan_rdump(c("n_obs", "y"), file = "mix.data.R")
 
-  rstan::stan(
-    file = stan_file,
-    data = data_list,
-    warmup = n_warmup,
-    control = list(adapt_delta = 0.99,
-                   max_treedepth = 20),
-    iter = n_iter,
-    chains = n_chains, ...)
+  res <-
+    rstan::stan(
+      file = stan_file,
+      data = data_list,
+      warmup = n_warmup,
+      control = list(adapt_delta = 0.99,
+                     max_treedepth = 20),
+      iter = n_iter,
+      chains = n_chains)#, ...)
+
+  return(res)
 }
 

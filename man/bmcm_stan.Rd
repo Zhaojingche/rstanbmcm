@@ -6,17 +6,24 @@
 \usage{
 bmcm_stan(
   input_data,
+  model = "exp",
   event_type = "PFS",
   tx_name = "IPILIMUMAB",
   n_iter = 2000,
   n_warmup = 1000,
+  n_chains = 2,
+  mean_cf = NA,
+  var_cf = NA,
+  age_adj = TRUE,
   ...
 )
 }
 \arguments{
-\item{input_data}{dataframe with all variables}
+\item{input_data}{Dataframe with all variables}
 
-\item{event_type}{OS or PFS}
+\item{model}{Distribution name; exp, weibull, gompertz}
+
+\item{event_type}{Overall survival or progression-free survival; OS, PFS}
 
 \item{tx_name}{Treatment name; IPILIMUMAB, NIVOLUMAB, NIVOLUMAB+IPILIMUMAB}
 
@@ -24,8 +31,16 @@ bmcm_stan(
 
 \item{n_warmup}{int}
 
+\item{n_chains}{Number of chains; int}
+
+\item{mean_cf}{Mean cure fraction; default to U\link{0,1}}
+
+\item{var_cf}{Variance of cure fraction}
+
+\item{age_adj}{Logical to centre regression covariate}
+
 \item{...}{Additional arguments}
 }
 \description{
-Run stan mixture cure model
+Use pre-compiled C code.
 }

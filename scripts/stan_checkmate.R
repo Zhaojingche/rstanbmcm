@@ -25,8 +25,8 @@ all_event_types <- c("PFS", "OS")
 model_names <- c("exp")#, "weibull", "gompertz")
 
 ## choose compiled stan?
-# stan_fn <- bmcm_stan
-stan_fn <- bmcm_stan_file
+# stan_fn <- bmcm_stan_file
+stan_fn <- bmcm_stan
 
 stan_out <- list()
 

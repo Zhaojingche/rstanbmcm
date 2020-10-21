@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.6.29) (preloaded format=pdflatex 2020.7.20)  15 OCT 2020 10:55
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.6.29) (preloaded format=pdflatex 2020.7.20)  19 OCT 2020 12:18
 entering extended mode
 **./initial_results.tex
 (initial_results.tex
@@ -495,11 +495,11 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 91.
+(Font)              <10> on input line 95.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 91.
+(Font)              <7> on input line 95.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 91.
+(Font)              <5> on input line 95.
 
 ! Package inputenc Error: Unicode character − (U+2212)
 (inputenc)                not set up for use with LaTeX.
@@ -508,15 +508,15 @@ See the inputenc package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.92 S(t, x) = S^*(t, x)[\pi(x) + (1 −
+l.96 S(t, x) = S^*(t, x)[\pi(x) + (1 −
                                          \pi(x))S_u(t, x)], 
 Here is how much of TeX's memory you used:
- 12828 strings out of 483157
- 189833 string characters out of 2957025
- 471541 words of memory out of 3000000
- 27927 multiletter control sequences out of 15000+200000
- 574301 words of font info for 82 fonts, out of 3000000 for 9000
+ 12840 strings out of 483157
+ 189987 string characters out of 2957025
+ 471574 words of memory out of 3000000
+ 27932 multiletter control sequences out of 15000+200000
+ 577592 words of font info for 86 fonts, out of 3000000 for 9000
  0 hyphenation exceptions out of 8191
- 50i,6n,42p,816b,271s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 50i,6n,42p,816b,329s stack positions out of 5000i,500n,10000p,200000b,50000s
 
 !  ==> Fatal error occurred, no output PDF file produced!

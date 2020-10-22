@@ -15,8 +15,8 @@ data {
 
   real mu_alpha;
   real<lower=0> sigma_alpha;
-  vector[H] mu_beta;
-  vector<lower=0> [H] sigma_beta;
+  vector[H] mu_0;
+  vector<lower=0> [H] sigma_0;
   vector[H] mu_bg;
   vector<lower=0> [H] sigma_bg;
   vector[H] mu_cf;
@@ -52,7 +52,7 @@ transformed parameters {
 }
 
 model {
-  beta0 ~ normal(mu_beta, sigma_beta);
+  beta0 ~ normal(mu_0, sigma_0);
   beta_bg ~ normal(mu_bg, sigma_bg);
   beta_cf ~ normal(mu_cf, sigma_cf);
 

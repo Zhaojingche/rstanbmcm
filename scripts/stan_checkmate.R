@@ -79,10 +79,10 @@ for (k in model_names) {
                         event_type = i,
                         tx_name = j,
                         mean_cf = 0.4,
-                        var_cf = 0.001,
-                        warmup = 100,
-                        iter = 5000,
-                        thin = 10)
+                        var_cf = 0.1,
+                        warmup = 10,
+                        iter = 500,
+                        thin = 1)
 
       file_name <-
         here::here(paste("data/stan_40", k, i, j, ".Rds", sep = "_"))

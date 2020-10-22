@@ -18,8 +18,8 @@ data {
   int<lower = 0> H;           // number of covariates
   matrix[n,H] X;              // matrix of covariates (with n rows and H columns)
 
-  vector[H] mu_beta;
-  vector<lower=0> [H] sigma_beta;
+  vector[H] mu_0;
+  vector<lower=0> [H] sigma_0;
   vector[H] mu_bg;
   vector<lower=0> [H] sigma_bg;
   vector[H] mu_cf;
@@ -54,7 +54,7 @@ transformed parameters {
 }
 
 model {
-  beta0 ~ normal(mu_beta, sigma_beta);
+  beta0 ~ normal(mu_0, sigma_0);
   beta_bg ~ normal(mu_bg, sigma_bg);
   beta_cf ~ normal(mu_cf, sigma_cf);
 

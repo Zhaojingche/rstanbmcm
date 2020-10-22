@@ -7,8 +7,6 @@
 #' @param centre_age
 #' @param mean_cf
 #' @param var_cf
-#' @param mu_beta
-#' @param sigma_beta
 #' @param mu_bg
 #' @param sigma_bg
 #'
@@ -23,9 +21,7 @@ prep_stan_data <- function(input_data,
                            var_cf = NA,
                            mu_cf = NA,
                            sigma_cf = NA,
-                           mu_beta = c(0.01, 0.01),
-                           sigma_beta = c(1,1),
-                           mu_bg = c(-8.25, 0.066),
+                           mu_bg = c(-8.5, 0.03),
                            sigma_bg = c(1,1)) {
 
   event_type <- match.arg(arg = event_type, c("PFS", "OS"))
@@ -78,7 +74,7 @@ prep_stan_data <- function(input_data,
                  ncol = 2),
       t_max = 60,
       mu_bg = mu_bg,
-      sigma_bg = sigma_bg,
+      sigma_bg = sigma_bg
       # h_bg = tx_dat[[tx_name]][[5]]
     ))
 }

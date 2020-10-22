@@ -750,8 +750,8 @@ private:
         matrix_d X;
         double mu_alpha;
         double sigma_alpha;
-        vector_d mu_beta;
-        vector_d sigma_beta;
+        vector_d mu_0;
+        vector_d sigma_0;
         vector_d mu_bg;
         vector_d sigma_bg;
         vector_d mu_cf;
@@ -849,26 +849,26 @@ public:
             sigma_alpha = vals_r__[pos__++];
             check_greater_or_equal(function__, "sigma_alpha", sigma_alpha, 0);
             current_statement_begin__ = 161;
-            validate_non_negative_index("mu_beta", "H", H);
-            context__.validate_dims("data initialization", "mu_beta", "vector_d", context__.to_vec(H));
-            mu_beta = Eigen::Matrix<double, Eigen::Dynamic, 1>(H);
-            vals_r__ = context__.vals_r("mu_beta");
+            validate_non_negative_index("mu_0", "H", H);
+            context__.validate_dims("data initialization", "mu_0", "vector_d", context__.to_vec(H));
+            mu_0 = Eigen::Matrix<double, Eigen::Dynamic, 1>(H);
+            vals_r__ = context__.vals_r("mu_0");
             pos__ = 0;
-            size_t mu_beta_j_1_max__ = H;
-            for (size_t j_1__ = 0; j_1__ < mu_beta_j_1_max__; ++j_1__) {
-                mu_beta(j_1__) = vals_r__[pos__++];
+            size_t mu_0_j_1_max__ = H;
+            for (size_t j_1__ = 0; j_1__ < mu_0_j_1_max__; ++j_1__) {
+                mu_0(j_1__) = vals_r__[pos__++];
             }
             current_statement_begin__ = 162;
-            validate_non_negative_index("sigma_beta", "H", H);
-            context__.validate_dims("data initialization", "sigma_beta", "vector_d", context__.to_vec(H));
-            sigma_beta = Eigen::Matrix<double, Eigen::Dynamic, 1>(H);
-            vals_r__ = context__.vals_r("sigma_beta");
+            validate_non_negative_index("sigma_0", "H", H);
+            context__.validate_dims("data initialization", "sigma_0", "vector_d", context__.to_vec(H));
+            sigma_0 = Eigen::Matrix<double, Eigen::Dynamic, 1>(H);
+            vals_r__ = context__.vals_r("sigma_0");
             pos__ = 0;
-            size_t sigma_beta_j_1_max__ = H;
-            for (size_t j_1__ = 0; j_1__ < sigma_beta_j_1_max__; ++j_1__) {
-                sigma_beta(j_1__) = vals_r__[pos__++];
+            size_t sigma_0_j_1_max__ = H;
+            for (size_t j_1__ = 0; j_1__ < sigma_0_j_1_max__; ++j_1__) {
+                sigma_0(j_1__) = vals_r__[pos__++];
             }
-            check_greater_or_equal(function__, "sigma_beta", sigma_beta, 0);
+            check_greater_or_equal(function__, "sigma_0", sigma_0, 0);
             current_statement_begin__ = 163;
             validate_non_negative_index("mu_bg", "H", H);
             context__.validate_dims("data initialization", "mu_bg", "vector_d", context__.to_vec(H));
@@ -1172,7 +1172,7 @@ public:
             }
             // model body
             current_statement_begin__ = 198;
-            lp_accum__.add(normal_log<propto__>(beta0, mu_beta, sigma_beta));
+            lp_accum__.add(normal_log<propto__>(beta0, mu_0, sigma_0));
             current_statement_begin__ = 199;
             lp_accum__.add(normal_log<propto__>(beta_bg, mu_bg, sigma_bg));
             current_statement_begin__ = 200;

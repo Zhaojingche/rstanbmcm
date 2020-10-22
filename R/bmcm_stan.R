@@ -43,7 +43,10 @@ bmcm_stan <- function(input_data,
     switch(model,
            exp      = stanmodels$exp_relative_mix,
            weibull  = stanmodels$weibull_relative_mix,
-           gompertz = stanmodels$gompertz_relative_mix)
+           gompertz = stanmodels$gompertz_relative_mix,
+           exp_full      = stanmodels$exp_relative_mix_full,
+           weibull_full  = stanmodels$weibull_relative_mix_full,
+           gompertz_full = stanmodels$gompertz_relative_mix_full)
 
   rstan_options(auto_write = TRUE)
   options(mc.cores = parallel::detectCores() - 1)
@@ -51,14 +54,14 @@ bmcm_stan <- function(input_data,
 
   res <-
     rstan::sampling(
-    stan_model,
-    data = data_list,
-    warmup = warmup,
-    iter = iter,
-    thin= thin,
-    control = list(adapt_delta = 0.99,
-                   max_treedepth = 20),
-    chains = chains, ...)
+      stan_model,
+      data = data_list,
+      warmup = warmup,
+      iter = iter,
+      thin= thin,
+      control = list(adapt_delta = 0.99,
+                     max_treedepth = 20),
+      chains = chains, ...)
 
   return(res)
 }

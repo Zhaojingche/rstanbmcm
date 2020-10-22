@@ -21,23 +21,29 @@ prep_stan_data <- function(input_data,
                            centre_age,
                            mean_cf = NA,
                            var_cf = NA,
+                           mu_cf = NA,
+                           sigma_cf = NA,
                            mu_beta = c(0.01, 0.01),
                            sigma_beta = c(1,1),
                            mu_bg = c(-8.25, 0.066),
-                           sigma_bg = c(1,1)
-                           # mu_cf = c(0,0),
-                           # sigma_cf = c(1,1)
-) {
+                           sigma_bg = c(1,1)) {
 
   event_type <- match.arg(arg = event_type, c("PFS", "OS"))
   tx_name <- match.arg(arg = tx_name,
                        c("IPILIMUMAB", "NIVOLUMAB", "NIVOLUMAB+IPILIMUMAB"))
 
-  beta_params <-
+  # cure fraction parameters
+  cf_params <-
     if (!is.na(mean_cf) && !is.na(var_cf)) {
-      MoM_beta(mean_cf, var_cf)
+      mombeta <- MoM_beta(mean_cf, var_cf)
+      list(a_cf = mombeta$a,
+           b_cf = mombeta$b)
+    } else if (all(!is.na(mu_cf)) &&
+               all(!is.na(sigma_cf))) {
+      list(mu_cf = mu_cf,
+           sigma_cf = sigma_cf)
     } else {
-      list(a = 1, b = 1)}
+      list(a_cf = 1, b_cf = 1)}
 
   if (event_type == "PFS") {
 
@@ -60,23 +66,20 @@ prep_stan_data <- function(input_data,
   # centring
   age_adj <- ifelse(centre_age, mean(tx_dat[[tx_name]][[4]]), 0)
 
-  list(
-    n = nrow(tx_dat[[tx_name]]),
-    t = tx_dat[[tx_name]][[2]],
-    d = tx_dat[[tx_name]][[3]],
-    H = 2,
-    X = matrix(c(rep(1, nrow(tx_dat[[tx_name]])),
-                 tx_dat[[tx_name]][[4]] - age_adj),
-               byrow = FALSE,
-               ncol = 2),
-    t_max = 60,
-    mu_bg = mu_bg,
-    sigma_bg = sigma_bg,
-    # mu_cf = mu_cf,
-    # sigma_cf = sigma_cf,
-    a_cf = beta_params$a,
-    b_cf = beta_params$b#,
-    # h_bg = tx_dat[[tx_name]][[5]]
-  )
+  c(cf_params,
+    list(
+      n = nrow(tx_dat[[tx_name]]),
+      t = tx_dat[[tx_name]][[2]],
+      d = tx_dat[[tx_name]][[3]],
+      H = 2,
+      X = matrix(c(rep(1, nrow(tx_dat[[tx_name]])),
+                   tx_dat[[tx_name]][[4]] - age_adj),
+                 byrow = FALSE,
+                 ncol = 2),
+      t_max = 60,
+      mu_bg = mu_bg,
+      sigma_bg = sigma_bg,
+      # h_bg = tx_dat[[tx_name]][[5]]
+    ))
 }
 

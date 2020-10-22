@@ -18,7 +18,8 @@ library(ggplot2)
 devtools::load_all()
 
 # surv_input_data
-load("C:/Users/Nathan/Documents/R/mixture_cure_model/data/surv_input_data.RData")
+# load("C:/Users/Nathan/Documents/R/mixture_cure_model/data/surv_input_data.RData")
+data("surv_input_data")
 
 all_tx_names <- c("IPILIMUMAB", "NIVOLUMAB", "NIVOLUMAB+IPILIMUMAB")
 all_event_types <- c("PFS", "OS")

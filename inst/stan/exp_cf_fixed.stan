@@ -47,9 +47,9 @@ model {
   beta_bg ~ normal(mu_bg, sigma_bg);
 
   for (i in 1:n) {
-    target += log_sum_exp(curefrac +
+    target += log_sum_exp(log(curefrac) +
                 surv_exp_lpdf(t[i] | d[i], lambda_bg[i]),
-                (1 - curefrac) +
+                log1m(curefrac) +
                 surv_exp_lpdf(t[i] | d[i], lambda_bg[i] + lambda0[i]));
   }
 }

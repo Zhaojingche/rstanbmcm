@@ -70,14 +70,14 @@ real weibull_haz (real t, real shape, real scale) {
 // weibull log survival
 real weibull_log_S (real t, real shape, real scale) {
   real logS;
-  logS = -pow((t/scale), shape);
+  logS = -pow(t/scale, shape);
   return logS;
 }
 
 // weibull survival
-real weibull_Surv (real t, real alpha, real beta) {
+real weibull_Surv (real t, real shape, real scale) {
   real S;
-  S = exp(-(pow(t/alpha, beta)));
+  S = exp(-pow(t/scale, shape));
   return S;
 }
 

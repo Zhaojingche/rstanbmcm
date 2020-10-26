@@ -393,8 +393,8 @@ struct weibull_log_S_functor__ {
 template <typename T0__, typename T1__, typename T2__>
 typename boost::math::tools::promote_args<T0__, T1__, T2__>::type
 weibull_Surv(const T0__& t,
-                 const T1__& alpha,
-                 const T2__& beta, std::ostream* pstream__) {
+                 const T1__& shape,
+                 const T2__& scale, std::ostream* pstream__) {
     typedef typename boost::math::tools::promote_args<T0__, T1__, T2__>::type local_scalar_t__;
     typedef local_scalar_t__ fun_return_scalar_t__;
     const static bool propto__ = true;
@@ -410,7 +410,7 @@ weibull_Surv(const T0__& t,
         stan::math::initialize(S, DUMMY_VAR__);
         stan::math::fill(S, DUMMY_VAR__);
         current_statement_begin__ = 84;
-        stan::math::assign(S, stan::math::exp(-(pow((t / alpha), beta))));
+        stan::math::assign(S, stan::math::exp(-(pow((t / scale), shape))));
         current_statement_begin__ = 85;
         return stan::math::promote_scalar<fun_return_scalar_t__>(S);
         }
@@ -424,9 +424,9 @@ struct weibull_Surv_functor__ {
     template <typename T0__, typename T1__, typename T2__>
         typename boost::math::tools::promote_args<T0__, T1__, T2__>::type
     operator()(const T0__& t,
-                 const T1__& alpha,
-                 const T2__& beta, std::ostream* pstream__) const {
-        return weibull_Surv(t, alpha, beta, pstream__);
+                 const T1__& shape,
+                 const T2__& scale, std::ostream* pstream__) const {
+        return weibull_Surv(t, shape, scale, pstream__);
     }
 };
 template <bool propto, typename T0__, typename T1__, typename T2__, typename T3__>
@@ -1068,7 +1068,7 @@ public:
             current_statement_begin__ = 192;
             for (int i = 1; i <= n; ++i) {
                 current_statement_begin__ = 193;
-                lp_accum__.add(log_sum_exp((curefrac + surv_exp_lpdf(get_base1(t, i, "t", 1), get_base1(d, i, "d", 1), get_base1(lambda_bg, i, "lambda_bg", 1), pstream__)), ((1 - curefrac) + surv_exp_lpdf(get_base1(t, i, "t", 1), get_base1(d, i, "d", 1), (get_base1(lambda_bg, i, "lambda_bg", 1) + get_base1(lambda0, i, "lambda0", 1)), pstream__))));
+                lp_accum__.add(log_sum_exp((stan::math::log(curefrac) + surv_exp_lpdf(get_base1(t, i, "t", 1), get_base1(d, i, "d", 1), get_base1(lambda_bg, i, "lambda_bg", 1), pstream__)), (log1m(curefrac) + surv_exp_lpdf(get_base1(t, i, "t", 1), get_base1(d, i, "d", 1), (get_base1(lambda_bg, i, "lambda_bg", 1) + get_base1(lambda0, i, "lambda0", 1)), pstream__))));
             }
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());

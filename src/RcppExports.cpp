@@ -10,6 +10,7 @@ using namespace Rcpp;
 RcppExport SEXP _rcpp_module_boot_stan_fit4exp_cf_fixed_mod();
 RcppExport SEXP _rcpp_module_boot_stan_fit4exp_relative_mix_mod();
 RcppExport SEXP _rcpp_module_boot_stan_fit4exp_relative_mix_full_mod();
+RcppExport SEXP _rcpp_module_boot_stan_fit4weibull_cf_fixed_mod();
 RcppExport SEXP _rcpp_module_boot_stan_fit4weibull_relative_mix_mod();
 RcppExport SEXP _rcpp_module_boot_stan_fit4weibull_relative_mix_full_mod();
 
@@ -17,6 +18,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_rcpp_module_boot_stan_fit4exp_cf_fixed_mod", (DL_FUNC) &_rcpp_module_boot_stan_fit4exp_cf_fixed_mod, 0},
     {"_rcpp_module_boot_stan_fit4exp_relative_mix_mod", (DL_FUNC) &_rcpp_module_boot_stan_fit4exp_relative_mix_mod, 0},
     {"_rcpp_module_boot_stan_fit4exp_relative_mix_full_mod", (DL_FUNC) &_rcpp_module_boot_stan_fit4exp_relative_mix_full_mod, 0},
+    {"_rcpp_module_boot_stan_fit4weibull_cf_fixed_mod", (DL_FUNC) &_rcpp_module_boot_stan_fit4weibull_cf_fixed_mod, 0},
     {"_rcpp_module_boot_stan_fit4weibull_relative_mix_mod", (DL_FUNC) &_rcpp_module_boot_stan_fit4weibull_relative_mix_mod, 0},
     {"_rcpp_module_boot_stan_fit4weibull_relative_mix_full_mod", (DL_FUNC) &_rcpp_module_boot_stan_fit4weibull_relative_mix_full_mod, 0},
     {NULL, NULL, 0}

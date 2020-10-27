@@ -36,7 +36,7 @@ real exp_Surv (real t, real rate) {
 // exponential sampling distribution
 real surv_exp_pdf (real t, real d, real rate) {
   real lik;
-  lik = exp_haz(t, rate)^d * exp_Surv(t,rate);
+  lik = exp_haz(t, rate)^d * exp_Surv(t, rate);
   return lik;
 }
 
@@ -119,7 +119,7 @@ real gompertz_Surv (real t, real shape, real rate) {
 // gompertz sampling distribution
 real surv_gompertz_lpdf (real t, real d, real shape, real rate) {
   real log_lik;
-  log_lik = d * gompertz_log_h(t,shape,rate) + gompertz_log_S(t,shape,rate);
+  log_lik = d * gompertz_log_h(t, shape, rate) + gompertz_log_S(t, shape, rate);
   return log_lik;
 }
 

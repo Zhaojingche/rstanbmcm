@@ -748,8 +748,8 @@ private:
         vector_d d;
         int H;
         matrix_d X;
-        double mu_alpha;
-        double sigma_alpha;
+        double a_alpha;
+        double b_alpha;
         vector_d mu_0;
         vector_d sigma_0;
         vector_d mu_bg;
@@ -836,18 +836,19 @@ public:
                 }
             }
             current_statement_begin__ = 165;
-            context__.validate_dims("data initialization", "mu_alpha", "double", context__.to_vec());
-            mu_alpha = double(0);
-            vals_r__ = context__.vals_r("mu_alpha");
+            context__.validate_dims("data initialization", "a_alpha", "double", context__.to_vec());
+            a_alpha = double(0);
+            vals_r__ = context__.vals_r("a_alpha");
             pos__ = 0;
-            mu_alpha = vals_r__[pos__++];
+            a_alpha = vals_r__[pos__++];
+            check_greater_or_equal(function__, "a_alpha", a_alpha, 0);
             current_statement_begin__ = 166;
-            context__.validate_dims("data initialization", "sigma_alpha", "double", context__.to_vec());
-            sigma_alpha = double(0);
-            vals_r__ = context__.vals_r("sigma_alpha");
+            context__.validate_dims("data initialization", "b_alpha", "double", context__.to_vec());
+            b_alpha = double(0);
+            vals_r__ = context__.vals_r("b_alpha");
             pos__ = 0;
-            sigma_alpha = vals_r__[pos__++];
-            check_greater_or_equal(function__, "sigma_alpha", sigma_alpha, 0);
+            b_alpha = vals_r__[pos__++];
+            check_greater_or_equal(function__, "b_alpha", b_alpha, 0);
             current_statement_begin__ = 167;
             validate_non_negative_index("mu_0", "H", H);
             context__.validate_dims("data initialization", "mu_0", "vector_d", context__.to_vec(H));
@@ -896,12 +897,14 @@ public:
             vals_r__ = context__.vals_r("a_cf");
             pos__ = 0;
             a_cf = vals_r__[pos__++];
+            check_greater_or_equal(function__, "a_cf", a_cf, 0);
             current_statement_begin__ = 173;
             context__.validate_dims("data initialization", "b_cf", "double", context__.to_vec());
             b_cf = double(0);
             vals_r__ = context__.vals_r("b_cf");
             pos__ = 0;
             b_cf = vals_r__[pos__++];
+            check_greater_or_equal(function__, "b_cf", b_cf, 0);
             current_statement_begin__ = 175;
             context__.validate_dims("data initialization", "t_max", "int", context__.to_vec());
             t_max = int(0);
@@ -1130,7 +1133,7 @@ public:
             current_statement_begin__ = 201;
             lp_accum__.add(normal_log<propto__>(beta_bg, mu_bg, sigma_bg));
             current_statement_begin__ = 204;
-            lp_accum__.add(gamma_log<propto__>(alpha0, mu_alpha, sigma_alpha));
+            lp_accum__.add(gamma_log<propto__>(alpha0, a_alpha, b_alpha));
             current_statement_begin__ = 206;
             lp_accum__.add(beta_log<propto__>(curefrac, a_cf, b_cf));
             current_statement_begin__ = 208;

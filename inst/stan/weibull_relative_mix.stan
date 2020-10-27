@@ -19,15 +19,15 @@ data {
   // real<lower=0> sigma_beta;    // sds of the covariates coefficients
   // real<lower=0> sigma_bg;
   // intercept and gradient -
-  real mu_alpha;
-  real<lower=0> sigma_alpha;
+  real<lower=0> a_alpha;
+  real<lower=0> b_alpha;
   vector[H] mu_0;
   vector<lower=0> [H] sigma_0;
   vector[H] mu_bg;
   vector<lower=0> [H] sigma_bg;
 
-  real a_cf;                  // cure fraction ~ Beta(a,b)
-  real b_cf;
+  real<lower=0> a_cf;             // cure fraction ~ Beta(a,b)
+  real<lower=0> b_cf;
 
   int<lower=0> t_max;
 }
@@ -58,7 +58,7 @@ model {
   beta_bg ~ normal(mu_bg, sigma_bg);
 
   // not dependent on X or tranformed
-  alpha0 ~ gamma(mu_alpha, sigma_alpha);
+  alpha0 ~ gamma(a_alpha, b_alpha);
 
   curefrac ~ beta(a_cf, b_cf);
 

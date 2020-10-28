@@ -60,8 +60,10 @@ t_max <- 60
 
 # uniform sample then censor selected
 cens_idx <- sample(1:n, size = 350, replace = FALSE)
+
 times_all[cens_idx] <-
   map_dbl(times_all[cens_idx], function(x) runif(1, 0, x))
+
 cens <- as.numeric(!(1:n) %in% cens_idx)
 
 ## check exp case

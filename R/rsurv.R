@@ -1,5 +1,15 @@
 
+
+
 #' Generate time to event sample with censoring
+#'
+#' @examples
+#'
+#' rsurv(n = 100,
+#'       distn = "exp",
+#'       prop_cens = 0.1,
+#'       params = list(mu = c(-5, 0.005)),
+#'       X = rep(c(10, 25, 50, 100), each = 25))
 #'
 rsurv <- function(n = 100,
                   distn = "exp",
@@ -12,8 +22,8 @@ rsurv <- function(n = 100,
       rexp_rgn(n, params$mu, X)
     } else if (distn == "weibull") {
       rweibull_rgn(n, params$alpha, param$mu, X)
-    } else if (distn == "bi-weibull") {
-      rbiweibull_rgn(n, params$alpha, params$mu_exp, params$mu_w, X)
+    } else if (distn == "biweibull") {
+      do.call(rbiweibull_rgn, c(n = n, X = X, params))
     }
 
   # uniform sample then censor selected
@@ -33,26 +43,48 @@ rsurv <- function(n = 100,
        X = X)
 }
 
+# rsurv_mix(cf = 0.2,
+#           n = 200,
+#           distn = c("exp", "exp"),
+#           prop_cens = 0.1,
+#           params =
+#             list(
+#               list(
+#                 mu = c(2.5, 0.005)),
+#               list(
+#                 mu = c(-8, 0.005))),
+#           X = rep(c(10, 25, 50, 100), each = 50))
 
+#' @importFrom purrr transpose
 #'
 rsurv_mix <- function(cf = 0.2,
                       n = 200,
                       distn = c("exp", "exp"),
-                      prop_cens = 0.1, # c(0.1, 0.2)
-                      X = X,
+                      prop_cens = 0.1,
                       params =
                         list(
                           list(
                             mu = c(2.5, 0.005)),
                           list(
                             mu = c(-8, 0.005))),
-                      X = rep(c(10, 25, 50, 100), each = 25)) {
+                      X = rep(c(10, 25, 50, 100), each = 50)) {
+
+  n_distns <- length(distn)
+
+  if (length(params) != n_distns)
+    stop("Number of parameter sets and distributions don't match",
+         call. = FALSE)
 
   z <- rbinom(n, 1, cf) + 1
-  s <- sum(z == 1)
-  s[2] <- sum(z == 2)
-  m <- X[z == 1]
-  m[2] <- X[z == 2]
+  s <- c(sum(z == 1), sum(z == 2))
+  m <- list(X[z == 1], X[z == 2])
+
+  prop_cens <-
+    if (length(prop_cens) < n_distns) {
+      rep(prop_cens[1], n_distns)
+    } else {
+      prop_cens}
+
 
   res <- list()
 
@@ -60,16 +92,18 @@ rsurv_mix <- function(cf = 0.2,
 
     res[[i]] <-
       rsurv(n = s[i],
-            X = m[i],
+            X = m[[i]],
             params[[i]],
             distn = distn[i],
-            prop_cens = prop_cens)
+            prop_cens = prop_cens[i])
   }
 
+  out <- purrr::transpose(res)
+
   list(
-    times = c(res[[1]]$times, res[[2]]$times),
-    times_cens = c(res[[1]]$times_cens, res[[2]]$times_cens),
-    status = c(res[[1]]$status, res[[2]]$status)
+    times = unlist(out$times),
+    t_cens = unlist(out$t_cens),
+    status = unlist(out$status)
   )
 }
 
